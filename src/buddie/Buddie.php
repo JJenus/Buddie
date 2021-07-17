@@ -16,6 +16,7 @@ class Buddie {
   */
   public function __construct()
   {
+    $this->reviews = [];
     $this->pause = false;
     $this->quit = false;
     $this->logger = new Logger();
@@ -23,7 +24,6 @@ class Buddie {
     $Config->load($this->username);
     $this->commands = json_decode(json_encode( $Config->get("commands")), true);
      
-    $this->logger->output(json_encode($this->commands));
   }
   
   public function retweet(){
@@ -40,14 +40,71 @@ class Buddie {
     # TODO: search RSS and tweet
   }
   
+  private function strip_hashtags($tweet, $tags){
+    if (empty($tags)) {
+      return $tweets;
+    } 
+    foreach ($tags as $tag){
+      $_tags[] = "#".$tag->text;
+    }
+    $_tags[] = "@";
+    return str_replace($_tags, '', $tweet);
+  }
+  
+  public function getRating($tweet){
+    preg_match("/#rating_\d/", $tweet, $matches);
+    return explode('_', $matches[0])[1];
+  }
+  
+  public function getBusiness ($tweet){
+    preg_match("/(@\w+)/", $tweet, $matches);
+    return $matches[0];
+  }
+  
   public function reviews(){
     if ($this->pause) {
-      $this->logger->output("Please fix errors and restart.");
+      $this->logger->write("Please fix errors and restart.");
       return false;
     }
-    if(!(new ReviewBot($this->username))->run()){
+    if($reviews = (new ReviewBot($this->username))->run()){
+      foreach ($reviews as $review){
+        $_review = $this->strip_hashtags(
+          $review->text, 
+          $review->entities->hashtags
+        );
+        
+        $this->reviews[] = [
+          "user" => [
+            "name" => $review->user->name, 
+            "id" => $review->user->id, 
+            "screen_name" => $review->user->screen_name, 
+            "image" => $review->user->profile_image_url
+          ], 
+          "review" => [
+            "text" => $_review, 
+            "rating" => $this->getRating($review->text), 
+            "business" => str_replace("@",'', $this->getBusiness($review->text)), 
+          ], 
+          "tweet" => str_replace("\n", ' ', $review->text),
+          "created_at" => date("D, M j, Y H:i:s", strtotime($review->created_at)) 
+        ]; 
+        
+        /*$data = printf('<h1>Review: </h1> <a href="http://twitter.com/%s/statuses/%s">@%s</a>: %s<br>',
+  				$review->user->screen_name,
+  				$review->id_str,
+  				$review->user->screen_name,
+  				$_review
+  			);*/
+        //$this->logger->output($data);
+      }
+      if (! empty($this->reviews)) {
+        return true;
+      }
+    }else {
       $this->pause = true;
+      $this->reviews = "Error";
     } 
+    return false;
   }
   
   function listen(){

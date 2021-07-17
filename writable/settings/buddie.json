@@ -1,58 +1,25 @@
 {
-    "search_strings": {
-        "0": {
-            "search": "\"startup * #trustbuddiereview\""
-        },
-        "1": {
-            "search": "\"startup * trustbuddiereview\""
-        },
-        "2": {
-            "search": "\"#trustbuddiereview rating_5\""
-        },
-        "3": {
-            "search": "\"#trustbuddiereview * #rating_5\""
-        },
-        "4": {
-            "search": "\"trustbuddiereview * rating_5\""
-        },
-        "5": {
-            "search": "\"#trustbuddiereview #rating_5\""
-        }
-    },
+    "search_strings": [
+        "0",
+        "timestamp",
+        "2021-07-16 13:23:13"
+    ],
     "reviews": {
         "0": {
-            "search": "\"trustbuddiereview\""
-        }, 
-        "1": {
-            "search": "\"#trustbuddiereview\""
+            "search": "\"#trustbuddiereview\"",
+            "max_id": "1416406844118011906",
+            "timestamp": "2021-07-17 14:38:01"
         }
     },
     "filters": {
         "tweet": [
-            "@iwantabot",
-            "#bot",
-            "twitch",
-            "toothbrush",
-            "@youtube",
-            "youtube",
-            "hug bot",
-            "hugbotph",
-            "gamergate",
-            "block bot",
+            "RT",
             "retweeted",
-            "rted",
-            "yahoo pipes",
-            "yahoo! pipes",
-            "better bot",
-            "spreadsheet",
-            "10sphere"
+            "rted"
         ],
         "username": [
             "bot",
-            "b0t",
-            "ebook",
-            "worst_user",
-            "youtube"
+            "b0t"
         ]
     },
     "dice_values": {
@@ -67,20 +34,18 @@
         "reviews": "",
         "retweet": "",
         "pause": "",
-        "quit": ""
+        "quit": "# app is a Twitter application intended to interact with Twitter users to make reviews to products they've used via tweets and mentions that you can use the 666666666666"
     },
-    "": {
-        "rate_limits": {
-            "search": {
-                "limit": 180,
-                "remaining": 179,
-                "reset": 1626242792
-            },
-            "blocked": {
-                "limit": 15,
-                "remaining": 15,
-                "reset": 1626242792
-            }
+    "rate_limits": {
+        "search": {
+            "limit": 180,
+            "remaining": 163,
+            "reset": 1626533525
+        },
+        "blocked": {
+            "limit": 15,
+            "remaining": 15,
+            "reset": 1626533581
         }
     }
 }

@@ -81,10 +81,11 @@ class Logger
      */
     public function output()
     {
+      return ;
         $aArgs = func_get_args();
 
         if ($this->inBrowser) {
-            $aArgs[0] .= '<br>' . PHP_EOL;
+          $aArgs[0] .= '<br>' . PHP_EOL;
         } else {
             $aArgs[0] = PHP_EOL . PHP_EOL.strip_tags($aArgs[0]);
         }

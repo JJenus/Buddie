@@ -43,25 +43,27 @@ class Search extends Base
 
           if (empty($oTweets->search_metadata)) {
               $this->logger->write(2, sprintf('Twitter API call failed: GET /search/tweets (%s)', $oTweets->errors[0]->message), $aArgs);
-              $this->logger->output(sprintf('- Unable to get search results, halting. (%s)', $oTweets->errors[0]->message));
+              $this->logger->output(sprintf('- Unable to get search results, halting. (%s)', json_encode($oTweets->errors[0]->message)));
 
               return false;
           }
 
           if (empty($oTweets->statuses) || count($oTweets->statuses) == 0) {
-              $this->logger->output('- No results since last search at %s.', $oSearch->timestamp);
+              $this->logger->output('- No results since last search at %s.', json_encode ($oSearch));
           } else {
               //make sure we parse oldest tweets first
               $aTweets = array_merge($aTweets, array_reverse($oTweets->statuses));
           }
 
           //save data for next run
-          $this->oConfig->set('search_strings', $i, 'max_id', $oTweets->search_metadata->max_id_str);
-          $this->oConfig->set('search_strings', $i, 'timestamp', date('Y-m-d H:i:s'));
+          $this->oConfig->set($search_str, $i, 'max_id', $oTweets->search_metadata->max_id_str);
+          $this->oConfig->set($search_str, $i, 'timestamp', date('Y-m-d H:i:s'));
       }
 
-      $this->oConfig->writeConfig();
-
+      //$this->oConfig->writeConfig();
+      
+      $this->logger->output('Search complete.');
+      
       return $aTweets;
     }
 }

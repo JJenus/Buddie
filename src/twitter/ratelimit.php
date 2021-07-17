@@ -15,6 +15,7 @@ class Ratelimit extends Base {
      * @return bool
      */
     public function check($limit=null) {
+        //return true;
         $this->calibrate();
         if ($limit === "search") {
           return $this->searchLimits();
@@ -28,16 +29,15 @@ class Ratelimit extends Base {
     function calibrate(){
       if ($limits = $this->oConfig->get('rate_limits')) 
       {
-        $this->searchLimit = $limits["search"];
-        $this->blockedLimit = $limits["blocked"];
-        if (date("Y-m-d h:m:s", $this->searchLimit-reset) >= date("Y-m-d h:m:s", strtotime("now")) ) {
+        $this->searchLimit = $limits->search;
+        $this->blockedLimit = $limits->blocked;
+        if (date("Y-m-d h:m:s", $this->searchLimit->reset) <= date("Y-m-d h:m:s", strtotime("now")) ) {
           $this->fetchLimits(); 
         }
       }else{
         if (!$this->fetchLimits()) {
           $this->logger->output("Unable to get limits");
-        }else $this->save();
-        
+        }
       } 
     }
     
@@ -60,22 +60,24 @@ class Ratelimit extends Base {
   				date('Y-m-d H:i:s', $this->blockedLimit->reset)
   			);
   			$this->blockedLimit->remaining--;
+  			return true;
   		}
   		
     }
     
     private function save(){
-      $this->oConfig->set([
-  		  "rate_limits" => [
+      $this->oConfig->set(
+        "rate_limits", 
+  		   [
   		    "search" => $this->searchLimit, 
   		    "blocked" => $this->blockedLimit
   		  ]
-  		]);
+  		);
   		$this->logger->output("saved") ;
     } 
     
     public function searchLimits(){
-      if ($this->searchLimit->remaining <= $this->searchLimit->limit-1) {
+      if ($this->searchLimit->remaining <= 1) {
   			$this->logger->write(3, sprintf('Rate limit for GET search/tweets hit, waiting until %s', date('Y-m-d H:i:s', $this->searchLimit->reset)));
   			$this->logger->output(sprintf('- Remaining %d/%d calls! Aborting search until next reset at %s.',
   				$this->searchLimit->remaining,
@@ -86,20 +88,22 @@ class Ratelimit extends Base {
   			return false;
   		} else {
   			$this->logger->output('- Remaining %d/%d calls (search), next reset at %s.', $this->searchLimit->remaining, $this->searchLimit->limit, date('Y-m-d H:i:s', $this->searchLimit->reset));
-  		  $this->searchLimit->remaining -=1;
+  		  $this->searchLimit->remaining = intval($this->searchLimit->remaining)-1;
+  		  $this->save();
+  		  return true;
   		} 
     } 
     
     private function fetchLimits(){
       $this->logger->output('Fetching rate limit status..');
+		  $status = $this->oTwitter->get('application/rate_limit_status', array('resources' => 'search,blocks'));
 		  $this->logger->output(json_encode($status) ); 
-		  if (!$status) {
+		  if (empty($status)) {
 		    return false;
 		  }
 		  $this->searchLimit = $status->resources->search->{'/search/tweets'};
 		  $this->blockedLimit = $status->resources->blocks->{'/blocks/ids'};
 		  
- 
 		  return true;
     }
     

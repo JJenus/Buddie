@@ -1,6 +1,6 @@
 {
     "name": "jjenus/buddie",
-    "description": "Buddie is a Twitter application intended to interact with Twitter users to make reviews to products they've used via tweets. It basically searches for tweets with 'trustbuddiereview' keyword and saves the review. An added functionality is the ability to tweet and retweet.",
+    "description": "Buddie is a Twitter application intended to interact with Twitter users to make reviews on products they've used via tweets. It basically searches for tweets with 'trustbuddiereview' keyword and saves the review. An added functionality is the ability to tweet and retweet.",
     "type": "project",
     "authors": [
         {
@@ -10,7 +10,8 @@
     ],
     "minimum-stability": "beta",
     "require": {
-        "abraham/twitteroauth": "^2.0"
+        "abraham/twitteroauth": "^2.0",
+        "tonyhhyip/sse": "^3.0@beta"
     }, 
     "autoload": {
         "psr-4": { 

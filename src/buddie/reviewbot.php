@@ -43,18 +43,18 @@ class ReviewBot
                 #if ((new Auth($oConfig))->isUserAuthed($this->sUsername)) {
 
                     //search for new tweets
-                    $aTweets = (new Search($oConfig))
+                    $reviews = (new Search($oConfig))
                         ->search("reviews");
                     //filter out unwanted tweets/users
-                    $aTweets = (new Filter($oConfig))
+                    $reviews = (new Filter($oConfig))
                         ->setFilters()
-                        ->filter($aTweets);
+                        ->filter($reviews);
 
-                    if ($aTweets) {
-                        $this->logger->output($aTweets);
-                        return true;
+                    if (!empty($reviews)) {
+                       return $reviews;
                     }
-                        $this->logger->output($aTweets);
+                    
+                    $this->logger->output($reviews);
 
                     return false;
                 #}
