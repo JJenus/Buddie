@@ -37,13 +37,13 @@
     "rate_limits": {
         "search": {
             "limit": 180,
-            "remaining": 163,
-            "reset": 1626533525
+            "remaining": 145,
+            "reset": 1626551358
         },
         "blocked": {
             "limit": 15,
             "remaining": 15,
-            "reset": 1626533581
+            "reset": 1626551612
         }
     }
 }
