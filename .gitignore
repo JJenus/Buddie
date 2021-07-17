@@ -1,7 +1,3 @@
-.DS_Store
-composer.lock
-vendor
-env
 .cache
 base.inc.php 
 Access
