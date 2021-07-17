@@ -66,23 +66,7 @@ Vue.component("review", {
 let app = new Vue({
   el: "#app", 
   data: {
-    reviews: [
-      {
-        created_at: "18-12-2020", 
-        review: {
-          text: "I loved the way you keep me from being a good friend of mine ", 
-          rating: 3,
-          business: "Alye fc"
-        }, 
-        user: {
-         id : "124532245", 
-         name: "James ", 
-         screen_name: "jui", 
-         image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRFqHrEFHx0cWLPD11oQQD5epeSt54MwUuI1A&usqp=CAU"
-        }, 
-        tweet: "I think I have a sample ui on this topic that can be customized and used for faster delivery "
-      }
-    ], 
+    reviews: [], 
     app_name: "Buddie"
   },
   computed: {
