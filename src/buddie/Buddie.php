@@ -37,7 +37,7 @@ class Buddie {
   }
   
   private function tweet(){
-    # TODO: search RSS and tweet
+    # not enabled yet
   }
   
   private function strip_hashtags($tweet, $tags){
