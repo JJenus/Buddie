@@ -1,6 +1,8 @@
 <?php
 namespace Buddie\Twitter;
 
+use Buddie\Twitter\Ratelimit; 
+use Buddie\Twitter\Filter;
 /**
  * Search class, search Twitter for given terms
  *
@@ -16,8 +18,12 @@ class Search extends Base
      *
      * @return array|false
      */
-    public function search($search_str)
+    public function search($search_str, $apply_filters = true)
     {
+      if (!(new Ratelimit($this->oConfig))->check("search")) {
+        return false;
+      } 
+
       $oQuery = $this->oConfig->get($search_str);
   		if (empty($oQuery)) {
   			$this->logger->write(2, 'No search strings set');
@@ -25,7 +31,7 @@ class Search extends Base
   			return false;
   		}
 
-		  $aTweets = array();
+		  $sortedTweets = array();
 
       foreach ($oQuery as $i => $oSearch) {
           $sSearchString = $oSearch->search;
@@ -37,7 +43,7 @@ class Search extends Base
               'q'				=> $sSearchString,
               'result_type'	=> 'mixed',
               'count'			=> $this->oConfig->get('search_max'),
-              'since_id'		=> $sMaxId,
+              'since_id'  => $sMaxId,
           );
           $oTweets = $this->oTwitter->get('search/tweets', $aArgs);
 
@@ -52,7 +58,7 @@ class Search extends Base
               $this->logger->output('- No results since last search at %s.', json_encode ($oSearch));
           } else {
               //make sure we parse oldest tweets first
-              $aTweets = array_merge($aTweets, array_reverse($oTweets->statuses));
+              $sortedTweets = array_merge($sortedTweets, array_reverse($oTweets->statuses));
           }
 
           //save data for next run
@@ -60,10 +66,15 @@ class Search extends Base
           $this->oConfig->set($search_str, $i, 'timestamp', date('Y-m-d H:i:s'));
       }
 
-      //$this->oConfig->writeConfig();
+      //filter out unwanted tweets/users
+      if ($apply_filters) {
+        $sortedTweets = (new Filter($this->oConfig))
+          ->setFilters()
+          ->filter($sortedTweets);
+      }
       
       $this->logger->output('Search complete.');
       
-      return $aTweets;
+      return $sortedTweets;
     }
 }

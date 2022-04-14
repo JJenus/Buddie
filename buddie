@@ -1,6 +1,6 @@
 <?php
 require_once('vendor/autoload.php');
-require_once 'constants.php' ;
+require_once 'common.php' ;
 use Buddie\Buddie\Buddie;
 
-(new Buddie())->reviews();
+(new Buddie())->run();

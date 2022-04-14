@@ -81,7 +81,7 @@ class Logger
      */
     public function output()
     {
-      return ;
+      //return ;
         $aArgs = func_get_args();
 
         if ($this->inBrowser) {

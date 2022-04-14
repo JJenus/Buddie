@@ -27,23 +27,23 @@
         "base": 1
     },
     "commands": {
-        "help": "",
-        "tweet": "",
-        "reviews": "",
-        "retweet": "",
-        "pause": "",
-        "quit": "# app is a Twitter application intended to interact with Twitter users to make reviews to products they've used via tweets and mentions that you can use the 666666666666"
+        "help": "Displays possible commands",
+        "tweet": "Initiates tweet action. This will enable the bot to try to tweet all available data.",
+        "reviews": "This will definitely fetch results based on the configurations",
+        "retweet": "Will make retweet based on config parameters. ",
+        "pause": "This will pause any ongoing process",
+        "quit": "The quit command will shut down the bot."
     },
     "rate_limits": {
         "search": {
             "limit": 180,
-            "remaining": 145,
-            "reset": 1626551358
+            "remaining": 177,
+            "reset": 1649880417
         },
         "blocked": {
             "limit": 15,
             "remaining": 15,
-            "reset": 1626551612
+            "reset": 1649880417
         }
     }
 }

@@ -6,7 +6,7 @@
     'aliases' => 
     array (
     ),
-    'reference' => '11f5e95adb126a1da2f75d2d5fd7d2ac233ac3a3',
+    'reference' => '0391735613955cbac94b44231c23e79582212244',
     'name' => 'jjenus/buddie',
   ),
   'versions' => 
@@ -36,43 +36,7 @@
       'aliases' => 
       array (
       ),
-      'reference' => '11f5e95adb126a1da2f75d2d5fd7d2ac233ac3a3',
-    ),
-    'symfony/http-foundation' => 
-    array (
-      'pretty_version' => 'v3.4.47',
-      'version' => '3.4.47.0',
-      'aliases' => 
-      array (
-      ),
-      'reference' => 'b9885fcce6fe494201da4f70a9309770e9d13dc8',
-    ),
-    'symfony/polyfill-mbstring' => 
-    array (
-      'pretty_version' => 'v1.23.0',
-      'version' => '1.23.0.0',
-      'aliases' => 
-      array (
-      ),
-      'reference' => '2df51500adbaebdc4c38dea4c89a2e131c45c8a1',
-    ),
-    'symfony/polyfill-php70' => 
-    array (
-      'pretty_version' => 'v1.20.0',
-      'version' => '1.20.0.0',
-      'aliases' => 
-      array (
-      ),
-      'reference' => '5f03a781d984aae42cebd18e7912fa80f02ee644',
-    ),
-    'tonyhhyip/sse' => 
-    array (
-      'pretty_version' => '3.0.0-beta',
-      'version' => '3.0.0.0-beta',
-      'aliases' => 
-      array (
-      ),
-      'reference' => '86f79a14dd2d4634b78bd3bbbc236614a994292e',
+      'reference' => '0391735613955cbac94b44231c23e79582212244',
     ),
   ),
 );

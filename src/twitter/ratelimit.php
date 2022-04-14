@@ -87,7 +87,7 @@ class Ratelimit extends Base {
   			
   			return false;
   		} else {
-  			$this->logger->output('- Remaining %d/%d calls (search), next reset at %s.', $this->searchLimit->remaining, $this->searchLimit->limit, date('Y-m-d H:i:s', $this->searchLimit->reset));
+  			#$this->logger->output('- Remaining %d/%d calls (search), next reset at %s.', $this->searchLimit->remaining, $this->searchLimit->limit, date('Y-m-d H:i:s', $this->searchLimit->reset));
   		  $this->searchLimit->remaining = intval($this->searchLimit->remaining)-1;
   		  $this->save();
   		  return true;
@@ -97,7 +97,7 @@ class Ratelimit extends Base {
     private function fetchLimits(){
       $this->logger->output('Fetching rate limit status..');
 		  $status = $this->oTwitter->get('application/rate_limit_status', array('resources' => 'search,blocks'));
-		  $this->logger->output(json_encode($status) ); 
+		  #$this->logger->output(json_encode($status) ); 
 		  if (empty($status)) {
 		    return false;
 		  }

@@ -23,7 +23,6 @@ class Buddie {
     $Config = new Config();
     $Config->load($this->username);
     $this->commands = json_decode(json_encode( $Config->get("commands")), true);
-     
   }
   
   public function retweet(){
@@ -42,7 +41,7 @@ class Buddie {
   
   private function strip_hashtags($tweet, $tags){
     if (empty($tags)) {
-      return $tweets;
+      return $tweet;
     } 
     foreach ($tags as $tag){
       $_tags[] = "#".$tag->text;
@@ -53,11 +52,17 @@ class Buddie {
   
   public function getRating($tweet){
     preg_match("/#rating_\d/", $tweet, $matches);
+    if (empty($matches)) {
+      return null;
+    }
     return explode('_', $matches[0])[1];
   }
   
   public function getBusiness ($tweet){
     preg_match("/(@\w+)/", $tweet, $matches);
+    if (empty($matches)) {
+      return null;
+    }
     return $matches[0];
   }
   
@@ -89,20 +94,13 @@ class Buddie {
           "created_at" => date("D, M j, Y H:i:s", strtotime($review->created_at)) 
         ]; 
         
-        /*$data = printf('<h1>Review: </h1> <a href="http://twitter.com/%s/statuses/%s">@%s</a>: %s<br>',
-  				$review->user->screen_name,
-  				$review->id_str,
-  				$review->user->screen_name,
-  				$_review
-  			);*/
-        //$this->logger->output($data);
       }
       if (! empty($this->reviews)) {
         return true;
       }
     }else {
       $this->pause = true;
-      $this->reviews = "Error";
+      $this->reviews = "No results found";
     } 
     return false;
   }
@@ -125,6 +123,14 @@ class Buddie {
   
   function command($command){
     switch ($command) {
+      case 'show-reviews':
+        if(gettype($this->reviews) == "array") {
+          foreach($this->reviews as $review){
+            print_r($review);
+          }  
+        }else $this->logger->output($this->reviews);
+         
+        break;
       case 'reviews':
         $this->logger->output("fetching reviews...");
         $this->reviews();
@@ -145,6 +151,12 @@ class Buddie {
         $this->quit = true;
         break;
       
+      case "help":
+        foreach ($this->commands as $key=> $value) {
+          // code...
+          $this->logger->output("$key: $value");
+        }
+        break;
       default:
         if(isset($this->commands[$command])) {
           $this->logger->output("Command deprecated or temporary down");

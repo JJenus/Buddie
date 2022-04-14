@@ -10,8 +10,7 @@
     ],
     "minimum-stability": "beta",
     "require": {
-        "abraham/twitteroauth": "^2.0",
-        "tonyhhyip/sse": "^3.0@beta"
+        "abraham/twitteroauth": "^2.0"
     }, 
     "autoload": {
         "psr-4": { 
